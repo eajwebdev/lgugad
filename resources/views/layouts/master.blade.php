@@ -97,7 +97,7 @@
 <script src="{{ asset('template/plugins/jquery/jquery.min.js') }}"></script>
 <script>
     (function () {
-        const isDark = localStorage.getItem('gad-theme') === 'dark' || (!localStorage.getItem('gad-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        const isDark = localStorage.getItem('gad-theme') === 'dark';
         if (isDark) document.body.classList.add('dark-mode');
         document.getElementById('themeToggle').addEventListener('click', function () {
             const dark = document.body.classList.toggle('dark-mode');
