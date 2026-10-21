@@ -1,0 +1,144 @@
+        @font-face {
+            font-family: 'Helvetica'; 
+            src: url('{{ asset('fonts/Helvetica.ttf') }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Helvetica';
+        }
+        .border {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid black !important;
+        }
+        .border-2 {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid black !important;
+        }
+        .border-3{
+            border: none !important;
+        }
+        .default-font {
+            font-size: 9px;
+        }
+        .bold{
+            font-weight: bold;
+        }
+        .img-fluid {
+            max-width: 100%;
+            height: auto;   
+        }
+        .italic{
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        tr td {
+            font-size: 12px;
+            padding: 0; 
+            border: none; 
+            padding: 2px 2px 2px 0px;
+        }
+        input{
+            height: 15px;
+            padding: 0px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .horizontal-inputs {
+            display: flex;
+            align-items: center;
+        }
+
+        .horizontal-inputs span, .horizontal-inputs input {
+            margin-right: 5px; 
+        }
+        span{
+            margin: 0px;
+            padding: 0px;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .profile-image {
+            width: 136px;
+            position: fixed;
+            border-left: 1px solid black;
+            border-top: 1px solid black;
+            top: 127px;
+            right: 2px;
+            z-index: 999; 
+        }
+        .thumbmark-image {
+            width: 140px;
+            height: 75px;
+            position: fixed;
+            border: 2px solid black;
+            top: 76%;
+            right: 13.5%;
+            z-index: 999; 
+        }
+        .not-sale {
+            position: fixed;
+            top: 100%;
+            right: 0%;
+            z-index: 999; 
+            padding-right: 5px;
+        }
+        .td-bg{
+            background-color: #e0ecf4;
+            padding: 2px 2px 2px 0px; 
+        }
+
+        .td-bg1{
+            background-color: #cfd6db;
+            padding: 2px 2px 2px 0px; 
+        }
+
+        .table-like {
+            display: table;
+            width: 100%; 
+            border-collapse: collapse;
+        }
+
+        .table-row {
+            display: table-row;
+        }
+
+        .table-cell {
+            display: table-cell;
+            border-right: 1px solid black; 
+            width: 10px; 
+            text-align: center; 
+            padding: 2px; 
+        }
+        .table-cell1 {
+            display: table-cell;
+            width: 10px; 
+            text-align: center; 
+            padding: 2px; 
+        }
+        .centered-text {
+            position: absolute;
+            color: #DCDFE9;
+            top: 40.8%;
+            left: 50%;
+            width: 100%;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            font-size: 73px;
+            font-weight: 800px;
+        }
+        .centered-text1 {
+            position: absolute;
+            color: #DCDFE9;
+            top: 44%;
+            left: 50%;
+            width: 100%;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            font-size: 89px;
+            font-weight: 800px;
+        }
