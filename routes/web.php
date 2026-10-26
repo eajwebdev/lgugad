@@ -11,6 +11,7 @@ use App\Http\Controllers\DafacController;
 use App\Http\Controllers\VawcController;
 use App\Http\Controllers\SoloParentController;
 use App\Http\Controllers\PwdController;
+use App\Http\Controllers\DayCareWorkerController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProfileController;
 /*
@@ -52,7 +53,7 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::get('/moreinfo/{encryptedId}',[CitizenController::class,'citizenMoreInfo'])->name('citizenMoreInfo');
         Route::post('/upmoreinfo',[CitizenController::class,'MoreInfoUpdate'])->name('MoreInfoUpdate');
         Route::get('/list/pdf/{id}', [CitizenController::class, 'citizenReadPdf'])->name('citizenReadPdf');
-        Route::get('/list/idcard/{id}', [CitizenController::class, 'citizenPrntSticker'])->name('citizenPrntSticker');
+        Route::post('/list/idcards', [CitizenController::class, 'citizenIdCards'])->name('citizenIdCards');
         Route::delete('/delete/{id}', [CitizenController::class,'citizenDelete'])->name('citizenDelete');
         Route::post('/update-profile-image/{id}', [CitizenController::class, 'updateProfileImage'])->name('update-profile-image');
         Route::post('/update-citizen-files/{id}', [CitizenController::class, 'updateCitizenFiles'])->name('updateCitizenFiles');
@@ -97,6 +98,18 @@ Route::group(['middleware'=>['login_auth']],function(){
         Route::get('/record',[PwdController::class,'pwdRead'])->name('pwdRead');
         Route::get('/form',[PwdController::class,'pwdForm'])->name('pwdForm');
         Route::post('/create',[PwdController::class,'pwdCreate'])->name('pwdCreate');
+    });
+
+    //Day Care (Child Development) Workers
+    Route::prefix('/daycare')->middleware('module:daycare')->group(function () {
+        Route::get('/workers',[DayCareWorkerController::class,'daycareRead'])->name('daycareRead');
+        Route::get('/form',[DayCareWorkerController::class,'daycareForm'])->name('daycareForm');
+        Route::post('/create',[DayCareWorkerController::class,'daycareCreate'])->name('daycareCreate');
+        Route::get('/edit/{id}',[DayCareWorkerController::class,'daycareEdit'])->name('daycareEdit');
+        Route::post('/update/{id}',[DayCareWorkerController::class,'daycareUpdate'])->name('daycareUpdate');
+        Route::get('/form-6/blank',[DayCareWorkerController::class,'daycareBlankPdf'])->name('daycareBlankPdf');
+        Route::get('/form-6/{id}',[DayCareWorkerController::class,'daycarePdf'])->name('daycarePdf');
+        Route::delete('/delete/{id}',[DayCareWorkerController::class,'daycareDelete'])->name('daycareDelete');
     });
 
     //Reports (senior citizen data)

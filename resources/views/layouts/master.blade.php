@@ -165,6 +165,21 @@
 @stack('scripts')
 <script>
     (function () {
+        // Publish the pinned header's height for scroll offsets and other sticky panels.
+        const band = document.querySelector('.gad-band');
+        if (!band) return;
+        const update = function () {
+            document.documentElement.style.setProperty('--gad-band-height', band.offsetHeight + 'px');
+        };
+        update();
+        if ('ResizeObserver' in window) {
+            new ResizeObserver(update).observe(band);
+        } else {
+            window.addEventListener('resize', update);
+        }
+    })();
+
+    (function () {
         const toggle = document.getElementById('moduleMenuToggle');
         const nav = document.getElementById('moduleNav');
         if (!toggle || !nav) return;

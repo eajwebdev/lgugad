@@ -71,6 +71,12 @@ class Citizen extends Model
         return $this->validBirthday()?->format('F j, Y') ?? ((string) ($this->birthdayValue() ?: 'Not recorded'));
     }
 
+    /** The birthday as a date, or null when it is missing, malformed or in the future. */
+    public function birthDate(): ?Carbon
+    {
+        return $this->validBirthday();
+    }
+
     private function validBirthday(): ?Carbon
     {
         $value = (string) ($this->birthdayValue() ?? '');

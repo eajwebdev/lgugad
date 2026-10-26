@@ -3,24 +3,6 @@
     var citizenDeleteRoute = "{{ route('citizenDelete', ':id') }}";
 </script> 
 
-<script>
-    function printSticker(idcard_id) {
-        $.ajax({
-            url: "{{ route('citizenPrntSticker', ':id') }}".replace(':id', idcard_id),
-            method: 'GET',
-            success: function(response) {
-                
-                $('#modal-prntIDcard .modal-body').html(response);
-                
-                $('#modal-prntIDcard').modal('show');  
-
-                $(".downloadStickerButton").each(function() {
-                    $(this).val(idcard_id);
-                });
-            }
-        });
-    }
-</script>
 
 <script>
     $(document).on('click', '.citizen-delete', function(e) {

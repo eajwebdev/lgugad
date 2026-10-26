@@ -64,7 +64,7 @@ class SingleDatabaseModulesTest extends TestCase
         $this->assertSame('Jophed', $this->admin->fname);
         $this->assertSame('Abril', $this->admin->lname);
         $this->assertTrue(\Illuminate\Support\Facades\Hash::check('password123', $this->admin->password));
-        $this->assertSame('1,1,1,1,1,1,1', $this->admin->access);
+        $this->assertSame('1,1,1,1,1,1,1,1', $this->admin->access);
 
         $this->admin->update(['username' => 'Administrator', 'password' => bcrypt('old-password')]);
         $this->seed(\Database\Seeders\UsersTableSeeder::class);
@@ -152,7 +152,7 @@ class SingleDatabaseModulesTest extends TestCase
 
         $this->get(route('citizenMoreInfo', encrypt($citizen->id)))->assertOk();
         $this->get(route('citizenMoreInfo', 'tampered'))->assertNotFound();
-        $this->get(route('citizenPrntSticker', $citizen->id))->assertOk();
+        $this->post(route('citizenIdCards'), ['ids' => [$citizen->id], 'date_issued' => '2026-09-14'])->assertOk();
         $this->get(route('citizenReadPdf', encrypt($citizen->id)))->assertOk();
 
         $this->get(route('citizenDelete', $citizen->id))->assertStatus(405);
@@ -277,7 +277,7 @@ class SingleDatabaseModulesTest extends TestCase
             'password' => 'secret1', 'Role' => 'Office Staff', 'access' => [1 => '1', 4 => '1'],
         ])->assertSessionHas('success');
         $kim = User::where('username', 'kim')->firstOrFail();
-        $this->assertSame('0,1,0,0,1,0,0', $kim->access);
+        $this->assertSame('0,1,0,0,1,0,0,0', $kim->access);
         $this->assertTrue($kim->canAccessModule('senior'));
         $this->assertFalse($kim->canAccessModule('vawc'));
 
@@ -285,7 +285,7 @@ class SingleDatabaseModulesTest extends TestCase
             'uid' => $kim->id, 'fname' => 'Kim', 'mname' => 'L', 'lname' => 'Go', 'gender' => 'Female',
             'username' => 'kim', 'Role' => 'Administrator', 'access' => [0 => '1'],
         ])->assertSessionHas('success');
-        $this->assertSame('1,0,0,0,0,0,1', $kim->fresh()->access);
+        $this->assertSame('1,0,0,0,0,0,1,0', $kim->fresh()->access);
 
         $this->deleteJson(route('userDelete', $this->admin->id))->assertStatus(422);
         $this->deleteJson(route('userDelete', $kim->id))->assertOk();

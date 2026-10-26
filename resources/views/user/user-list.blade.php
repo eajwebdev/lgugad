@@ -141,6 +141,10 @@
                                         <input type="checkbox" name="access[5]" value="1" id="access5" class="form-check-input" @if(isset($accessArray[5]) && $accessArray[5] == '1') checked @endif>
                                         <label for="access5" class="form-check-label">VAWC</label>
                                     </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="access[7]" value="1" id="access7" class="form-check-input" @if(isset($accessArray[7]) && $accessArray[7] == '1') checked @endif>
+                                        <label for="access7" class="form-check-label">DAY CARE WORKERS</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>                                       

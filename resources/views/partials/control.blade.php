@@ -9,6 +9,7 @@
         ['Solo parents', 'soloparentRead', 'soloparent*', 'soloparent', 'fa-people-roof'],
         ['Senior citizens', 'citizenRead', 'senior*', 'senior', 'fa-person-cane'],
         ['VAWC', 'vawcRead', 'vawc*', 'vawc', 'fa-shield-heart'],
+        ['Day care workers', 'daycareRead', 'daycare*', 'daycare', 'fa-children'],
     ];
 
     if ($user->canAccessModule('admin')) {

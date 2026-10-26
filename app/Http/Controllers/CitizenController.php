@@ -10,6 +10,8 @@ use App\Models\City;
 use App\Models\Province;
 use App\Models\Region;
 use App\Services\CitizenService;
+use App\Services\SeniorIdCards;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -17,6 +19,9 @@ use PDF;
 
 class CitizenController extends Controller
 {
+    /** Largest batch of ID cards generated in one PDF (50 sheets). */
+    private const MAX_ID_CARDS = 500;
+
     public function __construct(private CitizenService $citizens)
     {
     }
@@ -105,13 +110,48 @@ class CitizenController extends Controller
         ]);
     }
 
-    public function citizenPrntSticker($id)
+    /**
+     * Senior Citizen's ID cards (OSCA 2026 layout) for the selected seniors, ten per long bond sheet.
+     */
+    public function citizenIdCards(Request $request, SeniorIdCards $idCards)
     {
-        $citizen = $this->citizenWithAllDetails()->where('citizens.id', $id)->firstOrFail();
-        $citizenI = $citizen;
-        $this->fillAddressLabels($citizen);
+        $validated = $request->validate([
+            'ids' => 'required|array|min:1|max:' . self::MAX_ID_CARDS,
+            'ids.*' => 'integer|distinct',
+            'date_issued' => 'required|date',
+            'photos' => 'nullable|boolean',
+            'back' => 'nullable|boolean',
+        ], [
+            'ids.required' => 'Select at least one senior citizen.',
+            'ids.max' => 'Generate at most ' . self::MAX_ID_CARDS . ' ID cards at a time.',
+        ]);
 
-        return view('citizen.modal-idcard-content', compact('citizen', 'citizenI'));
+        $citizens = Citizen::withPersonalInfo()
+            ->whereIn('citizens.id', $validated['ids'])
+            ->orderBy('citizens.lname')
+            ->orderBy('citizens.fname')
+            ->get();
+        if ($citizens->isEmpty()) {
+            return redirect()->route('citizenRead')->with('error', 'The selected senior citizens were not found.');
+        }
+
+        $pdf = app('dompdf.wrapper')->setPaper(SeniorIdCards::PAPER);
+        $metrics = $pdf->getDomPDF()->getFontMetrics();
+        $fontFile = resource_path('fonts/Carlito-Bold.ttf');
+        $metrics->registerFont(['family' => 'Carlito', 'weight' => 'bold', 'style' => 'normal'], $fontFile);
+
+        $sheets = $idCards->sheets(
+            $citizens,
+            Carbon::parse($validated['date_issued']),
+            $request->boolean('photos'),
+            $metrics,
+            $metrics->getFont('Carlito', 'bold')
+        );
+
+        return $pdf->loadView('citizen.idcards_pdf', [
+            'sheets' => $sheets,
+            'withBacks' => $request->boolean('back'),
+        ])->stream('Senior-Citizen-ID-Cards.pdf');
     }
 
     public function updateProfileImage(Request $request, $id)

@@ -76,9 +76,16 @@ a:hover {
 
 /* ---------- Masthead and module navigation ---------- */
 
+/* Masthead and module tabs stay pinned while the page scrolls. --gad-band-height is kept current by
+   the layout script so anchors and other sticky panels clear the band. */
+html {
+    scroll-padding-top: calc(var(--gad-band-height, 118px) + 12px);
+}
+
 .gad-band {
-    position: relative;
-    z-index: 20;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
     background: #fff;
     box-shadow: 0 4px 18px rgba(21, 34, 107, .045);
 }
@@ -1873,6 +1880,13 @@ label {
         display: none;
     }
 
+    /* The open menu scrolls inside the pinned band instead of running off screen. */
+    .gad-tabs.is-open {
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
     .gad-tab {
         justify-content: flex-start;
         white-space: normal;
@@ -1927,7 +1941,7 @@ label {
 .dafac-side { margin-bottom: 20px; }
 .dafac-side__panel {
     position: sticky;
-    top: 20px;
+    top: calc(var(--gad-band-height, 118px) + 20px);
     padding: 18px 10px 10px;
     border: 1px solid var(--gad-rule);
     border-radius: 14px;

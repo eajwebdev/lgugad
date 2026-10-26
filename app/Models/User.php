@@ -57,6 +57,7 @@ class User extends Authenticatable
         'senior' => 4,
         'vawc' => 5,
         'admin' => 6,
+        'daycare' => 7,
     ];
 
     public function hasRole($role)
